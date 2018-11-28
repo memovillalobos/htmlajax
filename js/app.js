@@ -76,8 +76,17 @@ function guardar()
   {
     if(this.readyState == 4 && this.status == 200)
     {
-      // var response = JSON.parse(this.responseText);
-      alert(this.responseText);
+      var response = JSON.parse(this.responseText);
+      if(response.status == 'error'){
+        alert(response.errors[0]);
+      }
+      else{
+        actualizar();
+        document.getElementById('first_name').value = "";
+        document.getElementById('last_name').value = "";
+        document.getElementById('email').value = "";
+        document.getElementById('phone_number').value = "";
+      }
     }
   };
   xhttp.open("POST", "http://nyc.pixan.io/ajax/public/api/students", true);
