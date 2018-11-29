@@ -59,12 +59,40 @@ function actualizar()
           row.appendChild(deleteButtonCell);
 
           document.getElementsByTagName('tbody')[0].appendChild(row);
+
         });
+
+        var botonesEliminar = document.getElementsByClassName('Eliminar');
+
+        for(var i=0; i<botonesEliminar.length;i++){
+          botonesEliminar[i].addEventListener('click', eliminarUsuario(response.students[i]));
+        }
+
       }
     }
   };
   xhttp.open("GET", "http://nyc.pixan.io/ajax/public/api/students", true);
   xhttp.send();
+}
+
+function eliminarUsuario(student)
+{
+  return function(event)
+  {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function ()
+    {
+      if(this.readyState == 4 && this.status == 200)
+      {
+        // Borrarla desde document
+        event.target.parentNode.parentNode.parentNode.removeChild(event.target.parentNode.parentNode);
+      }
+    };
+    xhr.open("DELETE",
+      "http://nyc.pixan.io/ajax/public/api/students/"+student.id,
+      true);
+    xhr.send();
+  }
 }
 
 function guardar()
